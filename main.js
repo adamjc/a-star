@@ -2,9 +2,6 @@ function removeNode (nodeIndex, set) {
   return set.slice(0, nodeIndex).concat(set.slice(nodeIndex + 1, set.length))
 }
 
-// Pick the node that minimises f(n) = g(n) + h(n)
-const pickBestNode = (set) => set.reduce((chosen, current) => current.f < chosen.f ? current : chosen)
-
 // Manhattan distance
 const manhattan = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
 
@@ -23,7 +20,7 @@ function findCost (a, b, heuristic = 'euclidean') {
 function addNeighbour (node, set) {
   for (let i = 0; i < set.length; i += 1) {
     if (node.f <= set[i].f) {
-      return set.slice(0, i).concat(node).concat(set.slice(i + 1, set.length))
+      return set.slice(0, i).concat(node).concat(set.slice(i, set.length))
     }
   }
   
@@ -135,7 +132,7 @@ function draw () {
   })
 
   if (openSet.length) {
-    const currentNode = pickBestNode(openSet)
+    const currentNode = openSet.shift()
   
     if (currentNode === end) {
       // found the end node, make the path
@@ -144,8 +141,7 @@ function draw () {
       drawPath(currentNode)
       noLoop()
     }
-
-    openSet = removeNode(openSet.indexOf(currentNode), openSet)
+    
     closedSet = closedSet.concat(currentNode)
 
     // find neighbours of current node
