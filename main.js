@@ -6,24 +6,70 @@ function removeNode (nodeIndex, set) {
 const pickBestNode = (set) => set.reduce((chosen, current) => current.f < chosen.f ? current : chosen)
 
 // Manhattan distance
-const findCost = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
+const manhattan = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
+
+// Euclidean distance
+const euclidean = (a, b) => Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
+
+function findCost (a, b, heuristic = 'euclidean') {
+  const heuristics = {
+    manhattan,
+    euclidean
+  }
+
+  return heuristics[heuristic](a, b)
+}
+
+function addNeighbour (node, set) {
+  for (let i = 0; i < set.length; i += 1) {
+    if (node.f <= set[i].f) {
+      return set.slice(0, i).concat(node).concat(set.slice(i + 1, set.length))
+    }
+  }
+  
+  return set.concat(node)
+}
 
 function findNeighbours (node, set) {
   // we are in a maze, you can only move in one of four directions, so your neighbours are above, below, left and right.
   let neighbours = []
 
+  // left
   if (set[node.x - 1] && set[node.x - 1][node.y] && !set[node.x - 1][node.y].isWall) {
     neighbours.push(set[node.x - 1][node.y])
   }
 
+  // left up
+  if (set[node.x - 1] && set[node.x - 1][node.y - 1] && !set[node.x - 1][node.y - 1].isWall) {
+    neighbours.push(set[node.x - 1][node.y - 1])
+  }
+
+  // left down
+  if (set[node.x - 1] && set[node.x - 1][node.y + 1] && !set[node.x - 1][node.y + 1].isWall) {
+    neighbours.push(set[node.x - 1][node.y + 1])
+  }
+
+  // right
   if (set[node.x + 1] && set[node.x + 1][node.y] && !set[node.x + 1][node.y].isWall) {
     neighbours.push(set[node.x + 1][node.y])
   }
 
+  // right up
+  if (set[node.x + 1] && set[node.x + 1][node.y - 1] && !set[node.x + 1][node.y - 1].isWall) {
+    neighbours.push(set[node.x + 1][node.y - 1])
+  }
+
+  // right down
+  if (set[node.x + 1] && set[node.x + 1][node.y + 1] && !set[node.x + 1][node.y + 1].isWall) {
+    neighbours.push(set[node.x + 1][node.y + 1])
+  }
+
+  // up
   if (set[node.x][node.y - 1] && !set[node.x][node.y - 1].isWall) {
     neighbours.push(set[node.x][node.y - 1])
   }
 
+  // down
   if (set[node.x][node.y + 1] && !set[node.x][node.y + 1].isWall) {
     neighbours.push(set[node.x][node.y + 1])
   }
@@ -45,12 +91,18 @@ function drawPath (node) {
 const size = 25
 const nodes = new Array(size).fill()
                                .map((_, x) => {
-                                 return new Array(size).fill().map((_, y) => ({ x, y, isWall: Math.random(1) < 0.2 }))
+                                 return new Array(size).fill().map((_, y) => ({ x, y, isWall: Math.random(1) < 0.3 }))
                                })
 const start = nodes[0][0]
 const end = nodes[size - 1][size - 1]
+
 start.g = 0
 start.f = 0 + findCost(start, end)
+
+if (end.isWall) {
+  end.isWall = false
+}
+
 let openSet = [start]
 let closedSet = []
 
@@ -108,7 +160,12 @@ function draw () {
       const newG = currentNode.g + findCost(currentNode, neighbour)
       
       if (!openSet.includes(neighbour)) {
-        openSet.push(neighbour)
+        neighbour.g = newG
+        neighbour.f = newG +  findCost(neighbour, end)
+        neighbour.bestNode = currentNode
+        openSet = addNeighbour(neighbour, openSet)
+        // openSet.push(neighbour)
+        // sort openSet...
       } else if (newG > neighbour.g) {
         continue
       }
