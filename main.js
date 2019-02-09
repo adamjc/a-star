@@ -47,9 +47,11 @@
 
   // Toggle walls
   document.addEventListener('click', event => {
-    const xOffset = document.getElementById('menu').clientWidth
-    const x = Math.floor((event.x - xOffset) / (window.innerHeight / nodes.length))
-    const y = Math.floor((event.y) / (window.innerHeight / nodes.length))
+    const maze = document.getElementById('maze')
+    const mazeBounds = maze.getBoundingClientRect()
+    const nodeSize = Math.floor(maze.clientHeight / nodes.length)
+    const x = Math.floor((event.x - mazeBounds.left) / nodeSize)  
+    const y = Math.floor((event.y - mazeBounds.top) / nodeSize)
 
     if (nodes[x] && nodes[x][y]) {
       if (currentMaze) {

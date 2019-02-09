@@ -2,29 +2,48 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
+    <title>A* Maze Solver</title>
   </head>
   <body>
-    <div id="menu">
-        <div id="size-menu">
-          <span>size: </span>
-          <input type="number" name="size" id="size" value=10 placeholder="25">
-        </div>
-  
-        <button id="start">Start</button>
 
-        <div id="start">
-          <div>Starting Node</div>
-          <span>x: </span><input class="node__initialiser" type="number" id="startX" value=0>
-          <span>y: </span><input class="node__initialiser" type="number" id="startY" value=0>
-        </div>
-
-        <div id="end">
-          <div>Ending Node</div>
-          <span>x: </span><input class="node__initialiser" type="number" id="endX" value=9>
-          <span>y: </span><input class="node__initialiser" type="number" id="endY" value=9>
-        </div>
+    <div class="blurb">
+        <h1>A* Maze Solver</h1>
+        <span class="blurb__node">
+          <div class="blurb__node__box blurb__node__box--open"></div>
+          Nodes are nodes under consideration (open set)
+        </span>
+        <span class="blurb__node">
+          <div class="blurb__node__box blurb__node__box--closed"></div>
+          Nodes are nodes that have already been evaluated (closed set)
+        </span>
+        <span>Click on tiles to toggle walls</span>
+          <span>See: <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">https://en.wikipedia.org/wiki/A*_search_algorithm</a> for more information</span>  
     </div>
-    <div id="maze"></div>
+
+    <div class="main">
+        <div class="menu">
+            <div id="size-menu">
+              <span>size: </span>
+              <input type="number" name="size" id="size" value=10 placeholder="25">
+            </div>
+      
+            <button id="start">Start</button>
+    
+            <div id="start">
+              <div>Starting Node</div>
+              <span>x: </span><input class="node__initialiser" type="number" id="startX" value=0>
+              <span>y: </span><input class="node__initialiser" type="number" id="startY" value=0>
+            </div>
+    
+            <div id="end">
+              <div>Ending Node</div>
+              <span>x: </span><input class="node__initialiser" type="number" id="endX" value=9>
+              <span>y: </span><input class="node__initialiser" type="number" id="endY" value=9>
+            </div>
+        </div>
+        <div id="maze"></div>
+    </div>
+    
     
     <link rel="stylesheet" href="./main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>

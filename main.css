@@ -1,3 +1,37 @@
 body {
   display: flex;
+  flex-direction: column;
 }
+
+.blurb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 2em;
+}
+
+.blurb__node {
+  display: flex;
+  align-items: center;
+}
+
+.blurb__node__box {
+  width: 25;
+  height: 25;
+  margin-right: 10px;
+}
+
+.blurb__node__box--open {
+  background-color: #2bd1fc;
+}
+
+.blurb__node__box--closed {
+  background-color: #ff48c4;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+

@@ -12,7 +12,8 @@ const maze = (() => {
     
       sketch.setup = () => {
         if (reset) resetNodes(nodes)
-        sketch.createCanvas(sketch.windowHeight, sketch.windowHeight)
+        const canvas = sketch.createCanvas(sketch.windowHeight - 250, sketch.windowHeight - 250)
+        canvas.parent('maze')
       }
     
       sketch.draw = drawFunc({ nodes, start, end, openSet, closedSet }, sketch)
