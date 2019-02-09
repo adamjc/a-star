@@ -15,7 +15,7 @@
     if (start.isWall) start.isWall = false
     if (end.isWall) end.isWall = false
 
-    new p5(sketch => {
+    const currentMaze = new p5(sketch => {
       sketch.setup = () => {
         const canvas = sketch.createCanvas(sketch.windowHeight, sketch.windowHeight)
         
@@ -38,13 +38,14 @@
     })
 
     return {
+      currentMaze,
       nodes,
       start,
       end
     }
   }
 
-  let { nodes, start, end } = makeInitialMaze()
+  let { currentMaze, nodes, start, end } = makeInitialMaze()
 
   document.addEventListener('click', event => {
     const xMenuOffset = document.getElementById('menu').clientWidth
@@ -53,7 +54,6 @@
 
 
     if (nodes[x] && nodes[x][y]) {
-      // debugger
       const oldCanvas = document.querySelector('.p5Canvas')
     
       if (oldCanvas) oldCanvas.remove()
@@ -63,10 +63,16 @@
       nodes = mazeDeets.nodes
       start = mazeDeets.start
       end = mazeDeets.end
+      currentMaze = mazeDeets.currentMaze
     }
   })
 
   document.getElementById('size').addEventListener('click', _ => {
+    if (currentMaze) {
+      currentMaze.remove()
+      console.log('Removing old maze')
+    }
+
     const oldCanvas = document.querySelector('.p5Canvas')
     
     if (oldCanvas) oldCanvas.remove()
@@ -75,13 +81,19 @@
     nodes = mazeDeets.nodes
     start = mazeDeets.start
     end = mazeDeets.end
+    currentMaze = mazeDeets.currentMaze
   })
 
   document.getElementById('start').addEventListener('click', _ => {
+    if (currentMaze) {
+      currentMaze.remove()
+      console.log('Removing old maze')
+    }
+
     const oldCanvas = document.querySelector('.p5Canvas')
     
     if (oldCanvas) oldCanvas.remove()
 
-    makeMaze(nodes, start, end)
+    currentMaze = makeMaze(nodes, start, end)
   })
 })()
