@@ -1,10 +1,14 @@
 (function () {
-  function makeInitialMaze() {
+  function makeInitialMaze(nodes) {
     const size = document.getElementById('size').valueAsNumber
-    const nodes = new Array(size).fill()
-                                .map((_, x) => {
-                                  return new Array(size).fill().map((_, y) => ({ x, y, isWall: Math.random(1) < 0.3}))
-                                })
+
+    if (!nodes) {
+      nodes = new Array(size).fill()
+                             .map((_, x) => {
+                               return new Array(size).fill().map((_, y) => ({ x, y, isWall: Math.random(1) < 0.3}))
+                             })
+    }
+    
     const start = nodes[0][0]
     const end = nodes[size - 1][size - 1]
 
@@ -43,8 +47,23 @@
   let { nodes, start, end } = makeInitialMaze()
 
   document.addEventListener('click', event => {
-    console.log(`Index x to: ${Math.floor((event.x / ((window.innerHeight - 8) / nodes.length)))}`)
-    console.log(`Index y to: ${Math.floor((event.y / ((window.innerHeight - 8) / nodes.length)))}`)
+    const xMenuOffset = document.getElementById('menu').clientWidth
+    const x = Math.floor((event.x - xMenuOffset) / (window.innerHeight / nodes.length))
+    const y = Math.floor((event.y) / (window.innerHeight / nodes.length))
+
+
+    if (nodes[x] && nodes[x][y]) {
+      // debugger
+      const oldCanvas = document.querySelector('.p5Canvas')
+    
+      if (oldCanvas) oldCanvas.remove()
+      nodes[x][y].isWall = !nodes[x][y].isWall
+      const mazeDeets = makeInitialMaze(nodes)
+
+      nodes = mazeDeets.nodes
+      start = mazeDeets.start
+      end = mazeDeets.end
+    }
   })
 
   document.getElementById('size').addEventListener('click', _ => {
