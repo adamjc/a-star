@@ -13,7 +13,9 @@
 
     new p5(sketch => {
       sketch.setup = () => {
-        sketch.createCanvas(sketch.windowHeight, sketch.windowHeight)
+        const canvas = sketch.createCanvas(sketch.windowHeight, sketch.windowHeight)
+        
+        canvas.parent('maze')
       }
 
       sketch.draw = () => {
@@ -40,8 +42,9 @@
 
   let { nodes, start, end } = makeInitialMaze()
 
-  document.addEventListener('click', event => {    
-    console.log(`Index to: ${Math.floor((event.x / ((window.innerHeight - 8) / 25)))}`)
+  document.addEventListener('click', event => {
+    console.log(`Index x to: ${Math.floor((event.x / ((window.innerHeight - 8) / nodes.length)))}`)
+    console.log(`Index y to: ${Math.floor((event.y / ((window.innerHeight - 8) / nodes.length)))}`)
   })
 
   document.getElementById('size').addEventListener('click', _ => {
@@ -60,6 +63,6 @@
     
     if (oldCanvas) oldCanvas.remove()
 
-    const maze = makeMaze(nodes, start, end)
+    makeMaze(nodes, start, end)
   })
 })()

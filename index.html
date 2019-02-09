@@ -1,15 +1,19 @@
 <html>
+  <head>
+    <meta charset="UTF-8"> 
+  </head>
   <body>
-    
     <div id="menu">
-      <div id="size-menu">
-        <span>size: </span>
-        <input type="number" name="size" id="size" value=10 placeholder="25">
-      </div>
-
-      <button id="start">Start</button>
+        <div id="size-menu">
+          <span>size: </span>
+          <input type="number" name="size" id="size" value=10 placeholder="25">
+        </div>
+  
+        <button id="start">Start</button>
     </div>
+    <div id="maze"></div>
     
+    <link rel="stylesheet" href="./main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.js"></script>
     <script src="./a-star.js"></script>
     <script src="./main.js"></script>
