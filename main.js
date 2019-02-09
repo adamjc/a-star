@@ -67,7 +67,7 @@
     }
   })
 
-  document.getElementById('size').addEventListener('click', _ => {
+  document.getElementById('size').addEventListener('change', _ => {
     if (currentMaze) {
       currentMaze.remove()
     }
