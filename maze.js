@@ -22,6 +22,7 @@ const maze = (() => {
   function resetNodes (nodes) {
     for (var x = 0; x < nodes.length; x += 1) {
       for (var y = 0; y < nodes.length; y += 1) {
+        nodes[x][y].hasChanged = true
         nodes[x][y].bestNode = null
         nodes[x][y].isOpen = false
         nodes[x][y].isClosed = false
@@ -29,8 +30,8 @@ const maze = (() => {
     }
   }
 
-  function drawNode (x, y, width, sketch, radius = 0) {
-    sketch.square(x, y, width, radius, radius, radius, radius)
+  function drawNode (x, y, width, sketch, radius = width) {
+    sketch.square(x, y, width)
   }
   
   function drawNodes (nodes, start, end, sketch) {
@@ -39,20 +40,29 @@ const maze = (() => {
     for (let x = 0; x < nodes.length; x += 1) {
       for (let y = 0; y < nodes[x].length; y += 1) {
         const node = nodes[x][y]
-        
-        if (node.isWall) {
-          sketch.fill('#444')
-        } else if (node === start) {
-          sketch.fill('cyan')
-        } else if (node === end) {
-          sketch.fill('#ffccff')
-        } else if (node.isOpen) {
-          sketch.fill('#2bd1fc')
-        } else if (node.isClosed) {
-          sketch.fill('#ff48c4')
-        } else sketch.fill(255, 255, 255)
-  
-        drawNode(x * nodeSize, y * nodeSize, nodeSize, sketch)
+
+        if (node.hasChanged) {
+          sketch.strokeWeight(1)
+          sketch.stroke('#fff')
+            
+          if (node.isWall) {
+            sketch.fill('#444')
+          } else if (node === start) {
+            sketch.fill('cyan')
+          } else if (node === end) {
+            sketch.fill('#ffccff')
+          } else if (node.isOpen) {
+            sketch.fill('#2bd1fc')
+          } else if (node.isClosed) {
+            sketch.fill('#ff48c4')
+          } else {
+            sketch.fill('#fff')
+          }
+
+          drawNode(x * nodeSize, y * nodeSize, nodeSize, sketch)
+
+          node.hasChanged = false
+        }
       }
     }
   }
@@ -61,9 +71,10 @@ const maze = (() => {
     const nodeSize = (sketch.width / nodes.length) - 1
     
     sketch.stroke('#fff')
-    sketch.strokeWeight(4)
+    sketch.strokeWeight(2)
   
     if (node.bestNode) {
+      node.hasChanged = true
       const startX = (node.x * nodeSize) + (nodeSize / 2)
       const startY = (node.y * nodeSize) + (nodeSize / 2)
       const endX = (node.bestNode.x * nodeSize) + (nodeSize / 2)

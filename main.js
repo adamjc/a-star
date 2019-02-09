@@ -1,10 +1,3 @@
-function createInitialDrawFunc ({nodes, start, end }, sketch) {
-  return sketch.draw = () => {
-    sketch.noStroke()
-    maze.drawNodes(nodes, start, end, sketch)
-  }
-}
-
 (function () {
   let { currentMaze, nodes, start, end } = initialise()
 
@@ -42,6 +35,13 @@ function createInitialDrawFunc ({nodes, start, end }, sketch) {
       nodes,
       start,
       end
+    }
+  }
+
+  function createInitialDrawFunc ({nodes, start, end }, sketch) {
+    return sketch.draw = () => {
+      sketch.noStroke()
+      maze.drawNodes(nodes, start, end, sketch)
     }
   }
 

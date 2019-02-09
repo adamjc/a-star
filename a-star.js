@@ -1,7 +1,8 @@
 const aStar = (() => {
   function createSolveFunc ({ nodes, start, end, openSet, closedSet }, sketch) {
     return solveMaze = () => {
-      sketch.noStroke()
+      start.hasChanged = true // force a re-draw of the starting node, just a dirty hack.
+
       const nodeSize = (sketch.width / nodes.length) - 1
       // draw all nodes
       maze.drawNodes(nodes, start, end, sketch)
@@ -18,7 +19,8 @@ const aStar = (() => {
         closedSet = closedSet.concat(currentNode)
         currentNode.isClosed = true
         currentNode.isOpen = false
-    
+        currentNode.hasChanged = true
+
         // find neighbours of current node
         const neighbours = findNeighbours(currentNode, nodes)
         
@@ -35,6 +37,7 @@ const aStar = (() => {
             neighbour.bestNode = currentNode
             openSet = addNeighbour(neighbour, openSet)
             neighbour.isOpen = true
+            neighbour.hasChanged = true
           } else if (newG >= neighbour.g) {
             continue
           }
