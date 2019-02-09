@@ -1,5 +1,5 @@
 function makeMaze (nodes, start, end) {
-  new p5(sketch => {
+  return new p5(sketch => {
     let openSet = [start]
     let closedSet = []
   
