@@ -22,6 +22,7 @@ const maze = (() => {
   function resetNodes (nodes) {
     for (var x = 0; x < nodes.length; x += 1) {
       for (var y = 0; y < nodes.length; y += 1) {
+        nodes[x][y].bestNode = null
         nodes[x][y].isOpen = false
         nodes[x][y].isClosed = false
       }
