@@ -47,47 +47,45 @@
 
   let { currentMaze, nodes, start, end } = makeInitialMaze()
 
+  // Toggle walls
   document.addEventListener('click', event => {
-    const xMenuOffset = document.getElementById('menu').clientWidth
-    const x = Math.floor((event.x - xMenuOffset) / (window.innerHeight / nodes.length))
+    const xOffset = document.getElementById('menu').clientWidth
+    const x = Math.floor((event.x - xOffset) / (window.innerHeight / nodes.length))
     const y = Math.floor((event.y) / (window.innerHeight / nodes.length))
-
 
     if (nodes[x] && nodes[x][y]) {
       const oldCanvas = document.querySelector('.p5Canvas')
     
       if (oldCanvas) oldCanvas.remove()
       nodes[x][y].isWall = !nodes[x][y].isWall
-      const mazeDeets = makeInitialMaze(nodes)
+      const mazeData = makeInitialMaze(nodes)
 
-      nodes = mazeDeets.nodes
-      start = mazeDeets.start
-      end = mazeDeets.end
-      currentMaze = mazeDeets.currentMaze
+      nodes = mazeData.nodes
+      start = mazeData.start
+      end = mazeData.end
+      currentMaze = mazeData.currentMaze
     }
   })
 
   document.getElementById('size').addEventListener('click', _ => {
     if (currentMaze) {
       currentMaze.remove()
-      console.log('Removing old maze')
     }
 
     const oldCanvas = document.querySelector('.p5Canvas')
     
     if (oldCanvas) oldCanvas.remove()
-    const mazeDeets = makeInitialMaze()
+    const mazeData = makeInitialMaze()
 
-    nodes = mazeDeets.nodes
-    start = mazeDeets.start
-    end = mazeDeets.end
-    currentMaze = mazeDeets.currentMaze
+    nodes = mazeData.nodes
+    start = mazeData.start
+    end = mazeData.end
+    currentMaze = mazeData.currentMaze
   })
 
   document.getElementById('start').addEventListener('click', _ => {
     if (currentMaze) {
       currentMaze.remove()
-      console.log('Removing old maze')
     }
 
     const oldCanvas = document.querySelector('.p5Canvas')
