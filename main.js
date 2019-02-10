@@ -1,8 +1,13 @@
 (function () {
   let { currentMaze, nodes, start, end } = initialise()
 
-  function initialise(nodes, start, end) {
+  function initialise(nodes, start = { x: 0, y: 0 }, end = { x: null, y: null }) {
     const size = document.getElementById('size').valueAsNumber
+
+    if (!end.x || !end.y) {
+      end.x = size - 1
+      end.y = size - 1
+    }
 
     if (!nodes) {
       nodes = new Array(size).fill()
@@ -12,18 +17,8 @@
                              })
     }
     
-    let startX = document.getElementById('startX').valueAsNumber
-    let endX = document.getElementById('endX').valueAsNumber
-    let startY = document.getElementById('startY').valueAsNumber
-    let endY = document.getElementById('endY').valueAsNumber
-
-    startX = startX > nodes.length - 1 || startX < 0 ? 0 : startX
-    endX = endX > nodes.length - 1 || endX < 0 ? 0 : endX
-    startY = startY > nodes[0].length - 1 || startY < 0 ? 0 : startY
-    endY = endY > nodes[0].length - 1 || endY < 0 ? 0 : endY
-    
-    start = start ? start : nodes[startX][startY]
-    end = end ? end : nodes[endX][endY]
+    nodes[start.x][start.y] = start
+    nodes[end.x][end.y] = end
 
     if (start.isWall) start.isWall = false
     if (end.isWall) end.isWall = false
