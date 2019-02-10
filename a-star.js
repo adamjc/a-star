@@ -63,7 +63,7 @@ const aStar = (() => {
   function addNeighbour (node, set) {
     for (let i = 0; i < set.length; i += 1) {
       // The +1 ensures that the best node is *much* better than our current direction
-      if (node.f <= (set[i].f + 0.5)) {
+      if (node.f <= (set[i].f + 1)) {
         return set.slice(0, i).concat(node).concat(set.slice(i, set.length))
       }
     }
