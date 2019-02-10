@@ -54,13 +54,8 @@
     const y = Math.floor((event.y - mazeBounds.top) / nodeSize)
 
     if (nodes[x] && nodes[x][y]) {
-      if (currentMaze) {
-        currentMaze.remove()
-      }
-
-      const oldCanvas = document.querySelector('.p5Canvas')
-    
-      if (oldCanvas) oldCanvas.remove()
+      removeMaze()
+      
       nodes[x][y].isWall = !nodes[x][y].isWall
       const mazeData = initialise(nodes)
 
@@ -73,13 +68,8 @@
 
   document.querySelectorAll('.node__initialiser').forEach(element => {
     element.addEventListener('change', _ => {
-      if (currentMaze) {      
-        currentMaze.remove()
-      }
-  
-      const oldCanvas = document.querySelector('.p5Canvas')
+      removeMaze()
       
-      if (oldCanvas) oldCanvas.remove()
       const mazeData = initialise(nodes)
   
       nodes = mazeData.nodes
@@ -90,13 +80,8 @@
   })
 
   document.getElementById('size').addEventListener('change', _ => {
-    if (currentMaze) {      
-      currentMaze.remove()
-    }
+    removeMaze()
 
-    const oldCanvas = document.querySelector('.p5Canvas')
-    
-    if (oldCanvas) oldCanvas.remove()
     const mazeData = initialise()
 
     nodes = mazeData.nodes
@@ -106,15 +91,18 @@
   })
 
   document.getElementById('start').addEventListener('click', _ => {
+    removeMaze()
+
+    currentMaze = maze.makeMaze(nodes, start, end, aStar.createSolveFunc, true)
+  })
+
+  function removeMaze () {
     if (currentMaze) {
-      console.log(currentMaze)
       currentMaze.remove()
     }
 
     const oldCanvas = document.querySelector('.p5Canvas')
     
     if (oldCanvas) oldCanvas.remove()
-
-    currentMaze = maze.makeMaze(nodes, start, end, aStar.createSolveFunc, true)
-  })
+  }
 })()
