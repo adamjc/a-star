@@ -29,6 +29,14 @@ body {
   background-color: #ff48c4;
 }
 
+.blurb__node__box--start {
+  background-color: #32ea1f99;
+}
+
+.blurb__node__box--end {
+  background-color: #ffa826;
+}
+
 .main {
   display: flex;
   flex-direction: row;
