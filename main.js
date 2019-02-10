@@ -1,7 +1,7 @@
 (function () {
   let { currentMaze, nodes, start, end } = initialise()
 
-  function initialise(nodes) {
+  function initialise(nodes, start, end) {
     const size = document.getElementById('size').valueAsNumber
 
     if (!nodes) {
@@ -22,8 +22,8 @@
     startY = startY > nodes[0].length - 1 || startY < 0 ? 0 : startY
     endY = endY > nodes[0].length - 1 || endY < 0 ? 0 : endY
     
-    const start = nodes[startX][startY]
-    const end = nodes[endX][endY]
+    start = start ? start : nodes[startX][startY]
+    end = end ? end : nodes[endX][endY]
 
     if (start.isWall) start.isWall = false
     if (end.isWall) end.isWall = false
@@ -45,39 +45,54 @@
     }
   }
 
-  // Toggle walls
-  document.addEventListener('click', event => {
+  document.querySelector('.node-selectors__node--wall').addEventListener('click', event => {
+    // Get all node-selector buttons and unset them all
+    document.querySelectorAll('.node-selectors button').forEach(el => el.disabled = false)
+
+    event.target.disabled = true
+  })
+
+  document.querySelector('.node-selectors__node--start').addEventListener('click', event => {
+    // Get all node-selector buttons and unset them all
+    document.querySelectorAll('.node-selectors button').forEach(el => el.disabled = false)
+
+    event.target.disabled = true
+  })
+
+  document.querySelector('.node-selectors__node--end').addEventListener('click', event => {
+    // Get all node-selector buttons and unset them all
+    document.querySelectorAll('.node-selectors button').forEach(el => el.disabled = false)
+
+    event.target.disabled = true
+  })
+
+  // Toggle walls/start/end
+  document.getElementById('maze').addEventListener('click', event => {
     const maze = document.getElementById('maze')
     const mazeBounds = maze.getBoundingClientRect()
     const nodeSize = maze.clientHeight / nodes.length
     const x = Math.floor((event.x - mazeBounds.left) / nodeSize)  
     const y = Math.floor((event.y - mazeBounds.top) / nodeSize)
+    const type = [...document.querySelectorAll('.node-selectors button')].filter(el => el.disabled)[0].innerText
 
     if (nodes[x] && nodes[x][y]) {
+      if (type === 'Start') {
+        start = nodes[x][y]
+      } else if (type === 'End') {
+        end = nodes[x][y]
+      } else {
+        nodes[x][y].isWall = !nodes[x][y].isWall
+      }
+
       removeMaze()
       
-      nodes[x][y].isWall = !nodes[x][y].isWall
-      const mazeData = initialise(nodes)
+      const mazeData = initialise(nodes, start, end)
 
       nodes = mazeData.nodes
       start = mazeData.start
       end = mazeData.end
       currentMaze = mazeData.currentMaze
     }
-  })
-
-  // Redraw if start / end nodes change
-  document.querySelectorAll('.node__initialiser').forEach(element => {
-    element.addEventListener('change', _ => {
-      removeMaze()
-      
-      const mazeData = initialise(nodes)
-  
-      nodes = mazeData.nodes
-      start = mazeData.start
-      end = mazeData.end
-      currentMaze = mazeData.currentMaze
-    })
   })
 
   // Redraw if size changes

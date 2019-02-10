@@ -7,26 +7,31 @@
   <body>
 
     <div class="blurb">
-        <h1>A* Maze Solver</h1>
-        <span class="blurb__node">
-          <div class="blurb__node__box blurb__node__box--open"></div>
-          Nodes are nodes under consideration (open set)
-        </span>
-        <span class="blurb__node">
-          <div class="blurb__node__box blurb__node__box--closed"></div>
-          Nodes are nodes that have already been evaluated (closed set)
-        </span>
-        <span class="blurb__node">
-          <div class="blurb__node__box blurb__node__box--start"></div>
-          Is the start node
-        </span>
-        <span class="blurb__node">
-          <div class="blurb__node__box blurb__node__box--end"></div>
-          Is the end node
-        </span>
-
-        <span>Click on tiles to toggle walls</span>
+      <div class="blurb__inner">
+          <h1>A* Maze Solver</h1>
+          <span class="blurb__node">
+            <div class="blurb__node__box blurb__node__box--open"></div>
+            Nodes are nodes under consideration (open set)
+          </span>
+          <span class="blurb__node">
+            <div class="blurb__node__box blurb__node__box--closed"></div>
+            Nodes are nodes that have already been evaluated (closed set)
+          </span>
+          <span class="blurb__node">
+            <div class="blurb__node__box blurb__node__box--start"></div>
+            Is the start node
+          </span>
+          <span class="blurb__node">
+            <div class="blurb__node__box blurb__node__box--end"></div>
+            Is the end node
+          </span>
+          <span class="blurb__node">
+            <div class="blurb__node__box blurb__node__box--wall"></div>
+            Is a wall node, click on it, or an empty space to toggle a wall
+          </span>
+  
           <span>See: <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">https://en.wikipedia.org/wiki/A*_search_algorithm</a> for more information</span>  
+      </div>
     </div>
 
     <div class="main">
@@ -48,6 +53,13 @@
               <div>Ending Node</div>
               <span>x: </span><input class="node__initialiser" type="number" id="endX" value=9>
               <span>y: </span><input class="node__initialiser" type="number" id="endY" value=9>
+            </div>
+
+            <div class="node-selectors">
+              <span class="node-selectors__text">Node placement</span>
+              <button class="node-selectors__node--wall" disabled>Wall</button>
+              <button class="node-selectors__node--start">Start</button>
+              <button class="node-selectors__node--end">End</button>
             </div>
         </div>
         <div id="maze"></div>

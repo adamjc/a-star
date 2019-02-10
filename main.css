@@ -1,4 +1,6 @@
 body {
+  box-sizing: border-box;
+  margin: 0;
   display: flex;
   flex-direction: column;
 }
@@ -8,6 +10,12 @@ body {
   flex-direction: column;
   align-items: center;
   line-height: 2em;
+  margin: 20px 0;
+}
+
+.blurb h1 {
+  text-align: center;
+  margin-top: 0;
 }
 
 .blurb__node {
@@ -35,6 +43,10 @@ body {
 
 .blurb__node__box--end {
   background-color: #ffa826;
+}
+
+.blurb__node__box--wall {
+  background-color: #444;
 }
 
 .main {
