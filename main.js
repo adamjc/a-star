@@ -91,7 +91,12 @@
   })
 
   // Redraw if size changes
-  document.getElementById('size').addEventListener('change', _ => {
+  document.getElementById('size').addEventListener('change', event => {
+    if (event.target.valueAsNumber > 100) {
+      // Creating mazes larger than this is going to take a much longer time...
+      event.target.valueAsNumber = 100
+    }
+
     removeMaze()
 
     const mazeData = initialise()

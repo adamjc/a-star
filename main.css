@@ -5,6 +5,51 @@ body {
   flex-direction: column;
 }
 
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+#size {
+  width: 50px;
+  text-align: center;
+}
+
+#size-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#size-menu span {
+  padding-right: 10px;
+}
+
+#maze {
+  border: 1px solid #444;
+}
+
+.menu {
+  justify-content: center;
+  padding: 0 10px;
+}
+
+.menu .node-selectors {
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menu .node-selectors span {
+  padding-bottom: 5px;
+}
+
 .blurb {
   display: flex;
   flex-direction: column;
@@ -55,3 +100,8 @@ body {
   justify-content: center;
 }
 
+#start {
+  width: 100%;
+  height: 50px;
+  font-size: 2em;
+}

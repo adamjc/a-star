@@ -30,25 +30,27 @@
             Is a wall node, click on it, or an empty space to toggle a wall
           </span>
   
-          <span>See: <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">https://en.wikipedia.org/wiki/A*_search_algorithm</a> for more information</span>  
+          <span><a href="https://en.wikipedia.org/wiki/A*_search_algorithm">https://en.wikipedia.org/wiki/A*_search_algorithm</a> for more information</span>  
       </div>
     </div>
 
     <div class="main">
         <div class="menu">
             <div id="size-menu">
-              <span>size: </span>
+              <span>Size</span>
               <input type="number" name="size" id="size" value=10 placeholder="25">
             </div>
-      
-            <button id="start">Start</button>
 
             <div class="node-selectors">
               <span class="node-selectors__text">Node placement</span>
-              <button class="node-selectors__node--wall" disabled>Wall</button>
-              <button class="node-selectors__node--start">Start</button>
-              <button class="node-selectors__node--end">End</button>
+              <div>
+                <button class="node-selectors__node--wall" disabled>Wall</button>
+                <button class="node-selectors__node--start">Start</button>
+                <button class="node-selectors__node--end">End</button>
+              </div>
             </div>
+
+            <button id="start">Start</button>
         </div>
         <div id="maze"></div>
     </div>
