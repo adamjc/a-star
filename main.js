@@ -66,6 +66,7 @@
     }
   })
 
+  // Redraw if start / end nodes change
   document.querySelectorAll('.node__initialiser').forEach(element => {
     element.addEventListener('change', _ => {
       removeMaze()
@@ -79,6 +80,7 @@
     })
   })
 
+  // Redraw if size changes
   document.getElementById('size').addEventListener('change', _ => {
     removeMaze()
 

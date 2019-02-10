@@ -2,49 +2,47 @@ const aStar = (() => {
   function createSolveFunc ({ nodes, start, end, openSet, closedSet }, sketch) {
     return solveMaze = () => {
       start.hasChanged = true // force a re-draw of the starting node, just a dirty hack.
-
-      const nodeSize = (sketch.width / nodes.length) - 1
-      // draw all nodes
+      
       maze.drawNodes(nodes, start, end, sketch)
-    
+
       if (openSet.length) {
         const currentNode = openSet.shift()
         maze.drawPath(currentNode, nodes, sketch)
-    
+
         if (currentNode === end) {
           console.log(`Found end node in: ${sketch.frameCount}`)
           sketch.noLoop()
         }
-        
+
         closedSet = closedSet.concat(currentNode)
         currentNode.isClosed = true
         currentNode.isOpen = false
         currentNode.hasChanged = true
 
-        // find neighbours of current node
         const neighbours = findNeighbours(currentNode, nodes)
         
         for (let i = 0; i < neighbours.length; i++) {
           const neighbour = neighbours[i]
-    
+
           if (closedSet.includes(neighbour)) continue
-    
+
           const newG = currentNode.g + findCost(currentNode, neighbour)
-    
+          const heuristicCost = findCost(neighbour, end)
+
           if (!openSet.includes(neighbour)) {
             neighbour.g = newG
-            neighbour.f = newG + findCost(neighbour, end)
+            neighbour.f = newG + heuristicCost
             neighbour.bestNode = currentNode
             openSet = addNeighbour(neighbour, openSet)
             neighbour.isOpen = true
             neighbour.hasChanged = true
-          } else if (newG >= neighbour.g) {
-            continue
           }
-    
-          neighbour.g = newG
-          neighbour.f = newG + findCost(neighbour, end)
-          neighbour.bestNode = currentNode
+
+          if (newG < neighbour.g) {
+            neighbour.g = newG
+            neighbour.f = newG + heuristicCost
+            neighbour.bestNode = currentNode
+          }
         }
       } else {
         console.log(`No solution found in: ${sketch.frameCount}`) 
@@ -53,12 +51,9 @@ const aStar = (() => {
     }
   }
   
-  const removeNode = (nodeIndex, set) =>set.slice(0, nodeIndex).concat(set.slice(nodeIndex + 1, set.length))
-  
+  const findCost = (a, b, heuristic = euclidean) => heuristic(a, b)
   const manhattan = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y)
   const euclidean = (a, b) => Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2))
-  
-  const findCost = (a, b, heuristic = euclidean) => heuristic(a, b)
   
   function addNeighbour (node, set) {
     for (let i = 0; i < set.length; i += 1) {
