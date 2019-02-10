@@ -4,7 +4,7 @@
   function initialise(nodes, start = { x: 0, y: 0 }, end = { x: null, y: null }) {
     const size = document.getElementById('size').valueAsNumber
 
-    if (!end.x || !end.y) {
+    if (end.x === null || end.y === null) {
       end.x = size - 1
       end.y = size - 1
     }
