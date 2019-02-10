@@ -49,7 +49,7 @@
   document.addEventListener('click', event => {
     const maze = document.getElementById('maze')
     const mazeBounds = maze.getBoundingClientRect()
-    const nodeSize = Math.floor(maze.clientHeight / nodes.length)
+    const nodeSize = maze.clientHeight / nodes.length
     const x = Math.floor((event.x - mazeBounds.left) / nodeSize)  
     const y = Math.floor((event.y - mazeBounds.top) / nodeSize)
 

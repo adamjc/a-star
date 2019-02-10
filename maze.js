@@ -12,7 +12,7 @@ const maze = (() => {
     
       sketch.setup = () => {
         if (reset) resetNodes(nodes)
-        const canvas = sketch.createCanvas(sketch.windowHeight - 250, sketch.windowHeight - 250)
+        const canvas = sketch.createCanvas(sketch.windowHeight - 300, sketch.windowHeight - 300)
         canvas.parent('maze')
       }
     
@@ -38,7 +38,7 @@ const maze = (() => {
   }
   
   function drawNodes (nodes, start, end, sketch) {
-    const nodeSize = (sketch.width / nodes.length) - 1
+    const nodeSize = (sketch.width / nodes.length)
   
     for (let x = 0; x < nodes.length; x += 1) {
       for (let y = 0; y < nodes[x].length; y += 1) {
@@ -51,9 +51,9 @@ const maze = (() => {
           if (node.isWall) {
             sketch.fill('#444')
           } else if (node === start) {
-            sketch.fill('cyan')
+            sketch.fill('#32ea1f99')
           } else if (node === end) {
-            sketch.fill('#ffccff')
+            sketch.fill('#ffa826')
           } else if (node.isOpen) {
             sketch.fill('#2bd1fc')
           } else if (node.isClosed) {
@@ -71,7 +71,7 @@ const maze = (() => {
   }
 
   function drawPath (node, nodes, sketch) {
-    const nodeSize = (sketch.width / nodes.length) - 1
+    const nodeSize = (sketch.width / nodes.length)
     
     sketch.stroke('#fff')
     sketch.strokeWeight(2)
