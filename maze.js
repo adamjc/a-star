@@ -33,7 +33,7 @@ const maze = (() => {
     }
   }
 
-  function drawNode (x, y, width, sketch, radius = width) {
+  function drawNode (x, y, width, sketch) {
     sketch.square(x, y, width)
   }
   
