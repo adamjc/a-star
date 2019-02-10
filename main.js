@@ -1,7 +1,7 @@
 (function () {
   let { currentMaze, nodes, start, end } = initialise()
 
-  function initialise(nodes, start = { x: 0, y: 0 }, end = { x: null, y: null }) {
+  function initialise(nodes = [], start = { x: 0, y: 0 }, end = { x: null, y: null }) {
     const size = document.getElementById('size').valueAsNumber
 
     if (end.x === null || end.y === null) {
@@ -9,7 +9,7 @@
       end.y = size - 1
     }
 
-    if (!nodes) {
+    if (!nodes.length) {
       nodes = new Array(size).fill()
                              .map((_, x) => {
                                return new Array(size).fill()
@@ -79,32 +79,22 @@
         nodes[x][y].isWall = !nodes[x][y].isWall
       }
 
-      removeMaze()
-      
-      const mazeData = initialise(nodes, start, end)
-
-      nodes = mazeData.nodes
-      start = mazeData.start
-      end = mazeData.end
-      currentMaze = mazeData.currentMaze
+      reinitialiseMaze(nodes, start, end)
     }
+  })
+
+  document.getElementById('randomise').addEventListener('click', event => {
+    reinitialiseMaze()
   })
 
   // Redraw if size changes
   document.getElementById('size').addEventListener('change', event => {
     if (event.target.valueAsNumber > 100) {
-      // Creating mazes larger than this is going to take a much longer time...
+      // Creating mazes larger than this is going to take a much longer time... 
       event.target.valueAsNumber = 100
     }
 
-    removeMaze()
-
-    const mazeData = initialise()
-
-    nodes = mazeData.nodes
-    start = mazeData.start
-    end = mazeData.end
-    currentMaze = mazeData.currentMaze
+    reinitialiseMaze()
   })
 
   document.getElementById('start').addEventListener('click', _ => {
@@ -113,7 +103,7 @@
     currentMaze = maze.makeMaze(nodes, start, end, aStar.createSolveFunc, true)
   })
 
-  function removeMaze () {
+  function removeMaze() {
     if (currentMaze) {
       currentMaze.remove()
     }
@@ -121,5 +111,17 @@
     const oldCanvas = document.querySelector('.p5Canvas')
     
     if (oldCanvas) oldCanvas.remove()
+  }
+
+  // Side effects *EVERYWHERE*
+  function reinitialiseMaze (currentNodes = [], currentStart = { x: 0, y: 0 }, currentEnd = { x: null, y: null }) {
+    removeMaze()
+
+    const mazeData = initialise(currentNodes, currentStart, currentEnd)
+
+    nodes = mazeData.nodes
+    start = mazeData.start
+    end = mazeData.end
+    currentMaze = mazeData.currentMaze
   }
 })()
